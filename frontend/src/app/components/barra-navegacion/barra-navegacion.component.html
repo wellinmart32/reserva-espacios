@@ -1,0 +1,43 @@
+<p-menubar [model]="items" styleClass="navbar-custom">
+  <ng-template pTemplate="start">
+    <div class="logo-container">
+      <i class="pi pi-building logo-icon"></i>
+      <span class="logo-text">Reserva de Espacios</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="end">
+    <div class="navbar-end">
+      <div *ngIf="authService.estaAutenticado()" class="usuario-badge">
+        <i class="pi pi-user"></i>
+        <span>{{ obtenerNombreUsuario() }}</span>
+      </div>
+
+      <p-button 
+        *ngIf="!authService.estaAutenticado()"
+        label="Iniciar Sesión"
+        icon="pi pi-sign-in"
+        (onClick)="irIniciarSesion()"
+        [outlined]="true"
+        styleClass="btn-login"
+      ></p-button>
+
+      <p-button 
+        *ngIf="!authService.estaAutenticado()"
+        label="Registrarse"
+        icon="pi pi-user-plus"
+        (onClick)="irRegistro()"
+        styleClass="btn-register"
+      ></p-button>
+
+      <p-button 
+        *ngIf="authService.estaAutenticado()"
+        label="Cerrar Sesión"
+        icon="pi pi-sign-out"
+        (onClick)="cerrarSesion()"
+        severity="danger"
+        styleClass="btn-logout"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-menubar>

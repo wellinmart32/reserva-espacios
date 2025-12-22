@@ -1,0 +1,175 @@
+::ng-deep .navbar-custom {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0;
+  border: none;
+  padding: 0.75rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+::ng-deep .navbar-custom .p-menubar-root-list {
+  gap: 0.5rem;
+}
+
+::ng-deep .navbar-custom .p-menuitem-link {
+  color: white !important;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+::ng-deep .navbar-custom .p-menuitem-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+::ng-deep .navbar-custom .p-menuitem-link .p-menuitem-icon {
+  color: white;
+  margin-right: 0.5rem;
+}
+
+::ng-deep .navbar-custom .p-menuitem-link .p-menuitem-text {
+  color: white;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 1.75rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logo-text {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.usuario-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.usuario-badge:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.usuario-badge i {
+  font-size: 1.1rem;
+}
+
+::ng-deep .btn-login,
+::ng-deep .btn-register,
+::ng-deep .btn-logout {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 25px;
+  padding: 0.75rem 1.75rem;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+::ng-deep .btn-login {
+  border: 2px solid white;
+  color: white;
+  background: transparent;
+}
+
+::ng-deep .btn-login:hover {
+  background: white;
+  color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+::ng-deep .btn-register {
+  background: white;
+  color: #667eea;
+  border: 2px solid white;
+}
+
+::ng-deep .btn-register:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+::ng-deep .btn-logout {
+  background: #f56565;
+  border: 2px solid #f56565;
+  color: white;
+}
+
+::ng-deep .btn-logout:hover {
+  background: #e53e3e;
+  border-color: #e53e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.4);
+}
+
+@media (max-width: 960px) {
+  ::ng-deep .navbar-custom {
+    padding: 0.5rem 1rem;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  ::ng-deep .btn-login .p-button-label,
+  ::ng-deep .btn-register .p-button-label,
+  ::ng-deep .btn-logout .p-button-label {
+    display: none;
+  }
+
+  ::ng-deep .btn-login,
+  ::ng-deep .btn-register,
+  ::ng-deep .btn-logout {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .usuario-badge span {
+    display: none;
+  }
+
+  .usuario-badge {
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,441 @@
+.container {
+  padding: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header h1 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::ng-deep .header .p-button.p-button-outlined {
+  border: 2px solid #667eea;
+  color: #667eea;
+  background: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+::ng-deep .header .p-button.p-button-outlined:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+  color: #667eea;
+}
+
+.loading-container i {
+  font-size: 4rem;
+  color: #667eea;
+}
+
+.loading-container p {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.table-container {
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos de la tabla */
+::ng-deep .reservas-table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+::ng-deep .reservas-table .p-datatable-header {
+  background: #f7fafc;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 1.5rem;
+}
+
+::ng-deep .reservas-table .p-datatable-thead > tr > th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 1.25rem 1.5rem;
+  border: none;
+}
+
+::ng-deep .reservas-table .p-datatable-thead > tr > th:first-child {
+  border-radius: 0;
+}
+
+::ng-deep .reservas-table .p-datatable-thead > tr > th:last-child {
+  border-radius: 0;
+}
+
+::ng-deep .reservas-table .p-datatable-tbody > tr {
+  transition: all 0.3s;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+::ng-deep .reservas-table .p-datatable-tbody > tr:hover {
+  background: #f7fafc;
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 #667eea;
+}
+
+::ng-deep .reservas-table .p-datatable-tbody > tr > td {
+  padding: 1.25rem 1.5rem;
+  border: none;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.espacio-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.espacio-icon {
+  color: #667eea;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.espacio-nombre {
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.evento-nombre {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.fecha {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+::ng-deep .estado-tag {
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.acciones-column {
+  text-align: center !important;
+  width: 120px;
+}
+
+::ng-deep .btn-cancelar {
+  width: 2.75rem;
+  height: 2.75rem;
+  transition: all 0.3s;
+}
+
+::ng-deep .btn-cancelar:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.4);
+}
+
+.no-acciones {
+  color: #a0aec0;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Sin reservas */
+.sin-reservas {
+  text-align: center;
+  padding: 0 !important;
+}
+
+.sin-reservas-content {
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sin-reservas-content i {
+  font-size: 5rem;
+  color: #cbd5e0;
+  margin-bottom: 1.5rem;
+}
+
+.sin-reservas-content h3 {
+  margin: 0 0 0.75rem 0;
+  color: #2d3748;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.sin-reservas-content p {
+  margin: 0 0 2rem 0;
+  color: #718096;
+  font-size: 1.05rem;
+}
+
+::ng-deep .btn-explorar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+::ng-deep .btn-explorar:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6b3f8f 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Paginador */
+::ng-deep .reservas-table .p-paginator {
+  background: #f7fafc;
+  border-top: 2px solid #e2e8f0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 0 12px 12px;
+}
+
+::ng-deep .reservas-table .p-paginator .p-paginator-pages .p-paginator-page {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  color: #4a5568;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+::ng-deep .reservas-table .p-paginator .p-paginator-pages .p-paginator-page:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+::ng-deep .reservas-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+::ng-deep .reservas-table .p-paginator .p-dropdown {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+::ng-deep .reservas-table .p-paginator .p-dropdown:hover {
+  border-color: #667eea;
+}
+
+/* Estilos para el diálogo de confirmación */
+::ng-deep .p-confirm-dialog {
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  min-width: 400px;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header {
+  background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+  color: white;
+  padding: 1.75rem 2rem;
+  border-radius: 0;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header .p-dialog-title {
+  color: white;
+  font-weight: 700;
+  font-size: 1.35rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header .p-dialog-header-icon {
+  color: white;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-header .p-dialog-header-icon:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+::ng-deep .p-confirm-dialog .p-confirm-dialog-message {
+  padding: 2rem 2.5rem;
+  font-size: 1.05rem;
+  color: #2d3748;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+::ng-deep .p-confirm-dialog .p-confirm-dialog-icon {
+  color: #f56565;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer {
+  padding: 1.5rem 2.5rem;
+  background: #f7fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button {
+  padding: 0.875rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-text {
+  background: white;
+  color: #718096;
+  border: 2px solid #e2e8f0;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-text:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  color: #4a5568;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-danger {
+  background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+  border: none;
+  color: white;
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-danger:hover {
+  background: linear-gradient(135deg, #e53e3e 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 101, 101, 0.4);
+}
+
+::ng-deep .p-confirm-dialog .p-dialog-footer .p-button .p-button-icon {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+
+  ::ng-deep .reservas-table .p-datatable-tbody > tr > td {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .espacio-nombre {
+    font-size: 0.9rem;
+  }
+
+  .sin-reservas-content {
+    padding: 3rem 1rem;
+  }
+
+  .sin-reservas-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .sin-reservas-content p {
+    font-size: 0.95rem;
+  }
+}

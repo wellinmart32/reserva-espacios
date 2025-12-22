@@ -1,0 +1,195 @@
+<p-toast></p-toast>
+
+<div class="container">
+  <div class="header">
+    <h1>Espacios Disponibles</h1>
+    <p-button 
+      *ngIf="authService.estaAutenticado()"
+      label="Mis Reservas"
+      icon="pi pi-calendar"
+      (onClick)="verMisReservas()"
+      [outlined]="true"
+    ></p-button>
+  </div>
+
+  <!-- Filtros -->
+  <p-card class="filtros-card">
+    <div class="filtros-grid">
+      <div class="p-field">
+        <label for="tipo">Tipo de Espacio</label>
+        <p-dropdown 
+          id="tipo"
+          [options]="tiposUnicos"
+          [(ngModel)]="tipoSeleccionado"
+          (onChange)="aplicarFiltros()"
+          placeholder="Todos los tipos"
+          [showClear]="true"
+          styleClass="w-full"
+        ></p-dropdown>
+      </div>
+
+      <div class="p-field">
+        <label for="capacidad">Capacidad Mínima</label>
+        <p-inputNumber 
+          id="capacidad"
+          [(ngModel)]="capacidadMinima"
+          (onInput)="aplicarFiltros()"
+          placeholder="Ej: 10"
+          [showButtons]="true"
+          [min]="0"
+          styleClass="w-full"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field checkbox-field">
+        <p-checkbox 
+          [(ngModel)]="soloDisponibles"
+          (onChange)="aplicarFiltros()"
+          [binary]="true"
+          inputId="disponibles"
+        ></p-checkbox>
+        <label for="disponibles" class="ml-2">Solo disponibles</label>
+      </div>
+
+      <div class="p-field">
+        <label>&nbsp;</label>
+        <p-button 
+          label="Limpiar Filtros"
+          icon="pi pi-filter-slash"
+          (onClick)="limpiarFiltros()"
+          [outlined]="true"
+          styleClass="w-full"
+        ></p-button>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+    <p>Cargando espacios...</p>
+  </div>
+
+  <!-- Grid de Espacios -->
+  <div class="espacios-grid" *ngIf="!cargando">
+    <p-card *ngFor="let espacio of espaciosFiltrados" class="espacio-card">
+      <ng-template pTemplate="header">
+        <img [src]="espacio.imagen_url" [alt]="espacio.nombre" class="espacio-imagen">
+      </ng-template>
+      
+      <h3>{{ espacio.nombre }}</h3>
+      <p class="descripcion">{{ espacio.descripcion }}</p>
+      
+      <div class="detalles">
+        <div class="detalle-item">
+          <i class="pi pi-tag"></i>
+          <span>{{ espacio.tipo }}</span>
+        </div>
+        <div class="detalle-item">
+          <i class="pi pi-users"></i>
+          <span>{{ espacio.capacidad }} personas</span>
+        </div>
+        <div class="detalle-item">
+          <p-tag 
+            [value]="espacio.disponible ? 'Disponible' : 'No disponible'"
+            [severity]="espacio.disponible ? 'success' : 'danger'"
+          ></p-tag>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <p-button 
+          label="Reservar"
+          icon="pi pi-calendar-plus"
+          (onClick)="abrirModalReserva(espacio)"
+          [disabled]="!espacio.disponible"
+          styleClass="w-full"
+        ></p-button>
+      </ng-template>
+    </p-card>
+
+    <!-- Sin resultados -->
+    <div *ngIf="espaciosFiltrados.length === 0" class="sin-resultados">
+      <i class="pi pi-inbox" style="font-size: 4rem; color: #6c757d;"></i>
+      <p>No se encontraron espacios con los filtros seleccionados</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Reserva -->
+<p-dialog 
+  [header]="'Reservar: ' + (espacioSeleccionado?.nombre || '')"
+  [(visible)]="mostrarModalReserva"
+  [modal]="true"
+  [breakpoints]="{'960px': '90vw'}"
+  [style]="{width: '600px'}"
+  [contentStyle]="{overflow: 'visible', 'min-height': '650px'}"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  styleClass="modal-reserva"
+>
+  <div class="modal-body-reserva">
+    <div class="p-field mb-3">
+      <label for="nombreEvento">NOMBRE DEL EVENTO</label>
+      <input 
+        type="text"
+        pInputText 
+        id="nombreEvento" 
+        [(ngModel)]="nombreEvento"
+        placeholder="Ej: Reunión de Equipo"
+        class="w-full"
+      />
+    </div>
+
+    <div class="p-field mb-3">
+      <label for="fechaInicio">FECHA Y HORA DE INICIO</label>
+      <p-calendar 
+        [(ngModel)]="fechaInicio"
+        [showTime]="true"
+        [showSeconds]="true"
+        [minDate]="fechaMinima"
+        placeholder="Seleccione fecha y hora"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        iconDisplay="input"
+        [appendTo]="'body'"
+        styleClass="w-full"
+        inputStyleClass="w-full"
+      ></p-calendar>
+    </div>
+
+    <div class="p-field">
+      <label for="fechaFin">FECHA Y HORA DE FIN</label>
+      <p-calendar 
+        [(ngModel)]="fechaFin"
+        [showTime]="true"
+        [showSeconds]="true"
+        [minDate]="fechaInicio || fechaMinima"
+        placeholder="Seleccione fecha y hora"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        iconDisplay="input"
+        [appendTo]="'body'"
+        styleClass="w-full"
+        inputStyleClass="w-full"
+      ></p-calendar>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancelar"
+      icon="pi pi-times"
+      (onClick)="cerrarModal()"
+      severity="secondary"
+      [outlined]="true"
+    ></p-button>
+    <p-button 
+      label="Confirmar Reserva"
+      icon="pi pi-check"
+      (onClick)="crearReserva()"
+      [loading]="cargandoReserva"
+    ></p-button>
+  </ng-template>
+</p-dialog>

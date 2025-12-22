@@ -1,0 +1,241 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="container">
+  <div class="header">
+    <h1>Gestión de Espacios</h1>
+  </div>
+
+  <!-- Toolbar -->
+  <p-toolbar styleClass="toolbar-custom">
+    <ng-template pTemplate="left">
+      <p-button 
+        label="Nuevo Espacio"
+        icon="pi pi-plus"
+        (onClick)="abrirDialogoNuevo()"
+        styleClass="btn-nuevo"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <p-button 
+        label="Refrescar"
+        icon="pi pi-refresh"
+        (onClick)="cargarEspacios()"
+        [outlined]="true"
+        styleClass="btn-refrescar"
+      ></p-button>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="pi pi-spin pi-spinner"></i>
+    <p>Cargando espacios...</p>
+  </div>
+
+  <!-- Tabla de Espacios -->
+  <div *ngIf="!cargando" class="table-container">
+    <p-table 
+      [value]="espacios" 
+      [paginator]="true" 
+      [rows]="10"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} espacios"
+      styleClass="espacios-table"
+      [tableStyle]="{'min-width': '70rem'}"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Capacidad</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th class="acciones-column">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-espacio>
+        <tr class="table-row">
+          <td>
+            <div class="espacio-info">
+              <i class="pi pi-building espacio-icon"></i>
+              <span class="espacio-nombre">{{ espacio.nombre }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="tipo-badge">{{ espacio.tipo }}</span>
+          </td>
+          <td>
+            <div class="capacidad-info">
+              <i class="pi pi-users"></i>
+              <span>{{ espacio.capacidad }} personas</span>
+            </div>
+          </td>
+          <td>
+            <span class="descripcion-texto">{{ espacio.descripcion }}</span>
+          </td>
+          <td>
+            <p-tag 
+              [value]="espacio.disponible ? 'Disponible' : 'No disponible'"
+              [severity]="obtenerSeveridadDisponibilidad(espacio.disponible)"
+              styleClass="estado-tag"
+            ></p-tag>
+          </td>
+          <td class="acciones-column">
+            <div class="acciones-buttons">
+              <p-button 
+                icon="pi pi-pencil"
+                [rounded]="true"
+                [outlined]="true"
+                severity="info"
+                (onClick)="abrirDialogoEditar(espacio)"
+                pTooltip="Editar"
+                tooltipPosition="top"
+                styleClass="btn-editar"
+              ></p-button>
+              <p-button 
+                icon="pi pi-trash"
+                [rounded]="true"
+                [outlined]="true"
+                severity="danger"
+                (onClick)="eliminarEspacio(espacio)"
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+                styleClass="btn-eliminar"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="sin-espacios">
+            <div class="sin-espacios-content">
+              <i class="pi pi-inbox"></i>
+              <h3>No hay espacios registrados</h3>
+              <p>Comienza creando tu primer espacio</p>
+              <p-button 
+                label="Crear Espacio"
+                icon="pi pi-plus"
+                (onClick)="abrirDialogoNuevo()"
+                styleClass="btn-crear"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Modal Crear/Editar -->
+<p-dialog 
+  [header]="esEdicion ? 'Editar Espacio' : 'Nuevo Espacio'"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [style]="{width: '600px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="modal-espacio"
+>
+  <form [formGroup]="espacioForm" class="form-espacio">
+    <div class="p-field">
+      <label for="nombre">NOMBRE DEL ESPACIO *</label>
+      <input 
+        type="text"
+        pInputText 
+        id="nombre" 
+        formControlName="nombre"
+        placeholder="Ej: Sala de Conferencias A"
+        class="w-full"
+      />
+      <small *ngIf="espacioForm.get('nombre')?.invalid && espacioForm.get('nombre')?.touched" class="p-error">
+        El nombre es obligatorio (mínimo 3 caracteres)
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="tipo">TIPO DE ESPACIO *</label>
+      <p-dropdown 
+        [options]="tiposEspacio"
+        formControlName="tipo"
+        placeholder="Seleccione un tipo"
+        styleClass="w-full"
+      ></p-dropdown>
+      <small *ngIf="espacioForm.get('tipo')?.invalid && espacioForm.get('tipo')?.touched" class="p-error">
+        El tipo es obligatorio
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="capacidad">CAPACIDAD *</label>
+      <p-inputNumber 
+        formControlName="capacidad"
+        [showButtons]="true"
+        [min]="1"
+        placeholder="Número de personas"
+        styleClass="w-full"
+      ></p-inputNumber>
+      <small *ngIf="espacioForm.get('capacidad')?.invalid && espacioForm.get('capacidad')?.touched" class="p-error">
+        La capacidad debe ser mayor a 0
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="descripcion">DESCRIPCIÓN *</label>
+      <textarea 
+        pInputTextarea
+        id="descripcion" 
+        formControlName="descripcion"
+        placeholder="Describe las características del espacio"
+        rows="4"
+        class="w-full"
+      ></textarea>
+      <small *ngIf="espacioForm.get('descripcion')?.invalid && espacioForm.get('descripcion')?.touched" class="p-error">
+        La descripción es obligatoria (mínimo 10 caracteres)
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="imagen_url">URL DE IMAGEN *</label>
+      <input 
+        type="text"
+        pInputText 
+        id="imagen_url" 
+        formControlName="imagen_url"
+        placeholder="https://ejemplo.com/imagen.jpg"
+        class="w-full"
+      />
+      <small *ngIf="espacioForm.get('imagen_url')?.invalid && espacioForm.get('imagen_url')?.touched" class="p-error">
+        La URL de la imagen es obligatoria
+      </small>
+    </div>
+
+    <div class="p-field checkbox-field">
+      <p-checkbox 
+        formControlName="disponible"
+        [binary]="true"
+        inputId="disponible"
+      ></p-checkbox>
+      <label for="disponible">Espacio disponible</label>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancelar"
+      icon="pi pi-times"
+      (onClick)="cerrarDialogo()"
+      severity="secondary"
+      [outlined]="true"
+    ></p-button>
+    <p-button 
+      [label]="esEdicion ? 'Actualizar' : 'Crear'"
+      icon="pi pi-check"
+      (onClick)="guardarEspacio()"
+    ></p-button>
+  </ng-template>
+</p-dialog>

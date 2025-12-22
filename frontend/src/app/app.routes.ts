@@ -1,35 +1,16 @@
 import { Routes } from '@angular/router';
-import { Login } from './components/login/login';
-import { Registro } from './components/registro/registro';
-import { EspaciosLista } from './components/espacios-lista/espacios-lista';
-import { MisReservas } from './components/mis-reservas/mis-reservas';
+import { IniciarSesionComponent } from './components/iniciar-sesion/iniciar-sesion.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { EspaciosListaComponent } from './components/espacios-lista/espacios-lista.component';
+import { MisReservasComponent } from './components/mis-reservas/mis-reservas.component';
+import { AbmEspaciosComponent } from './components/abm-espacios/abm-espacios.component';
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'espacios',
-    pathMatch: 'full'
-  },
-  {
-    path: 'iniciar-sesion',
-    component: Login
-  },
-  {
-    path: 'registro',
-    component: Registro
-  },
-  {
-    path: 'espacios',
-    component: EspaciosLista
-  },
-  {
-    path: 'mis-reservas',
-    component: MisReservas,
-    canActivate: [authGuard]
-  },
-  {
-    path: '**',
-    redirectTo: 'espacios'
-  }
+  { path: '', redirectTo: 'espacios', pathMatch: 'full' },
+  { path: 'iniciar-sesion', component: IniciarSesionComponent },
+  { path: 'registro', component: RegistroComponent },
+  { path: 'espacios', component: EspaciosListaComponent },
+  { path: 'mis-reservas', component: MisReservasComponent, canActivate: [authGuard] },
+  { path: 'admin/espacios', component: AbmEspaciosComponent, canActivate: [authGuard] }
 ];
