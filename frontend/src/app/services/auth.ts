@@ -1,97 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { User, LoginRequest, RegisterRequest, AuthResponse } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
-  private tokenKey = 'auth_token';
-  
-  private usuarioActualSubject = new BehaviorSubject<User | null>(null);
-  public usuarioActual$ = this.usuarioActualSubject.asObservable();
+  private usuarioSubject = new BehaviorSubject<User | null>(null);
+  public usuarioActual$ = this.usuarioSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.cargarUsuarioDesdeToken();
   }
 
-  /**
-   * Registrar nuevo usuario
-   */
   registrar(datos: RegisterRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/registrar`, datos);
   }
 
-  /**
-   * Iniciar sesión
-   */
   login(credenciales: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credenciales).pipe(
       tap(response => {
-        this.guardarToken(response.access_token);
-        this.usuarioActualSubject.next(response.usuario);
+        localStorage.setItem('token', response.access_token);
+        this.usuarioSubject.next(response.usuario);
       })
     );
   }
 
-  /**
-   * Cerrar sesión
-   */
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
-        this.eliminarToken();
-        this.usuarioActualSubject.next(null);
+        localStorage.removeItem('token');
+        this.usuarioSubject.next(null);
       })
     );
   }
 
-  /**
-   * Obtener usuario autenticado
-   */
   obtenerUsuarioActual(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/yo`).pipe(
-      tap(usuario => this.usuarioActualSubject.next(usuario))
+      tap(usuario => this.usuarioSubject.next(usuario))
     );
   }
 
-  /**
-   * Guardar token en localStorage
-   */
-  private guardarToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-  }
-
-  /**
-   * Obtener token de localStorage
-   */
-  obtenerToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
-  /**
-   * Eliminar token de localStorage
-   */
-  private eliminarToken(): void {
-    localStorage.removeItem(this.tokenKey);
-  }
-
-  /**
-   * Verificar si el usuario está autenticado
-   */
   estaAutenticado(): boolean {
-    return this.obtenerToken() !== null;
+    return !!localStorage.getItem('token');
   }
 
-  /**
-   * Cargar usuario desde token al iniciar la app
-   */
+  obtenerToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
   private cargarUsuarioDesdeToken(): void {
     if (this.estaAutenticado()) {
       this.obtenerUsuarioActual().subscribe({
-        error: () => this.eliminarToken()
+        error: () => {
+          localStorage.removeItem('token');
+          this.usuarioSubject.next(null);
+        }
       });
     }
   }

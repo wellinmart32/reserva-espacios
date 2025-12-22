@@ -9,39 +9,24 @@ import { Reserva } from '../models/reserva.model';
 export class ReservaService {
   private apiUrl = 'http://localhost:8000/api/reservas';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  /**
-   * Listar todas las reservas del usuario autenticado
-   */
   listar(): Observable<Reserva[]> {
     return this.http.get<Reserva[]>(this.apiUrl);
   }
 
-  /**
-   * Obtener una reserva por ID
-   */
   obtenerPorId(id: number): Observable<Reserva> {
     return this.http.get<Reserva>(`${this.apiUrl}/${id}`);
   }
 
-  /**
-   * Crear nueva reserva
-   */
-  crear(reserva: Partial<Reserva>): Observable<any> {
+  crear(reserva: any): Observable<any> {
     return this.http.post(this.apiUrl, reserva);
   }
 
-  /**
-   * Actualizar reserva
-   */
-  actualizar(id: number, reserva: Partial<Reserva>): Observable<any> {
+  actualizar(id: number, reserva: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, reserva);
   }
 
-  /**
-   * Cancelar/eliminar reserva
-   */
   cancelar(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }

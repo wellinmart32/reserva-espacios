@@ -1,0 +1,106 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="container">
+  <div class="header">
+    <h1>Mis Reservas</h1>
+    <p-button 
+      label="Ver Espacios"
+      icon="pi pi-building"
+      (onClick)="verEspacios()"
+      [outlined]="true"
+    ></p-button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="pi pi-spin pi-spinner"></i>
+    <p>Cargando reservas...</p>
+  </div>
+
+  <!-- Tabla de Reservas -->
+  <div *ngIf="!cargando" class="table-container">
+    <p-table 
+      [value]="reservas" 
+      [paginator]="true" 
+      [rows]="10"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} reservas"
+      styleClass="reservas-table"
+      [tableStyle]="{'min-width': '60rem'}"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Espacio</th>
+          <th>Evento</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th class="acciones-column">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-reserva>
+        <tr class="table-row">
+          <td>
+            <div class="espacio-info">
+              <i class="pi pi-building espacio-icon"></i>
+              <span class="espacio-nombre">{{ reserva.espacio.nombre }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="evento-nombre">{{ reserva.nombre_evento }}</span>
+          </td>
+          <td>
+            <span class="fecha">{{ formatearFecha(reserva.fecha_inicio) }}</span>
+          </td>
+          <td>
+            <span class="fecha">{{ formatearFecha(reserva.fecha_fin) }}</span>
+          </td>
+          <td>
+            <p-tag 
+              [value]="reserva.estado"
+              [severity]="obtenerSeveridadEstado(reserva.estado)"
+              styleClass="estado-tag"
+            ></p-tag>
+          </td>
+          <td class="acciones-column">
+            <p-button 
+              *ngIf="reserva.estado === 'confirmada'"
+              icon="pi pi-times"
+              [rounded]="true"
+              [outlined]="true"
+              severity="danger"
+              (onClick)="cancelarReserva(reserva)"
+              pTooltip="Cancelar reserva"
+              tooltipPosition="top"
+              styleClass="btn-cancelar"
+            ></p-button>
+            <span *ngIf="reserva.estado !== 'confirmada'" class="no-acciones">
+              No disponible
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="sin-reservas">
+            <div class="sin-reservas-content">
+              <i class="pi pi-calendar-times"></i>
+              <h3>No tienes reservas</h3>
+              <p>Explora los espacios disponibles y crea tu primera reserva</p>
+              <p-button 
+                label="Explorar Espacios"
+                icon="pi pi-building"
+                (onClick)="verEspacios()"
+                styleClass="btn-explorar"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
