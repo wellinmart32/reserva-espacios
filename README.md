@@ -20,14 +20,14 @@ Aplicación web que proporciona las siguientes funcionalidades:
 ## Stack Tecnológico
 
 ### Backend
-- **Laravel 11** - Framework PHP
+- **Laravel 12** - Framework PHP
 - **PostgreSQL** - Sistema de gestión de base de datos
 - **JWT Auth** - Autenticación mediante tokens
 - **PHPUnit** - Framework de testing
 - **Swagger/OpenAPI** - Documentación de API
 
 ### Frontend
-- **Angular 20.3.10** - Framework JavaScript
+- **Angular 18.2** - Framework JavaScript
 - **PrimeNG** - Biblioteca de componentes UI
 - **TypeScript** - Lenguaje tipado
 - **RxJS** - Programación reactiva
