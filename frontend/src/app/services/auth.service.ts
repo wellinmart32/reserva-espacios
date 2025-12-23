@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, catchError, of } from 'rxjs';
 import { User, LoginRequest, RegisterRequest, AuthResponse } from '../models/user.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
-  
+  private apiUrl = environment.apiUrlLocalhostFormat;
+
   // BehaviorSubject para gestionar el estado del usuario actual
   private usuarioSubject = new BehaviorSubject<User | null>(null);
   public usuarioActual$ = this.usuarioSubject.asObservable();
-  
+
   // BehaviorSubject para gestionar el estado de autenticación
   private autenticadoSubject = new BehaviorSubject<boolean>(false);
   public autenticado$ = this.autenticadoSubject.asObservable();
