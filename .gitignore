@@ -7,7 +7,7 @@ yarn-error.log
 vendor/
 
 # Archivos de entorno
-.env
+.env.*
 .env.local
 .env.*.local
 
