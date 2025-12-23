@@ -954,6 +954,60 @@
                     }
                 ]
             }
+        },
+        "/espacios/{id}/reservas": {
+            "get": {
+                "tags": [
+                    "Reservas"
+                ],
+                "summary": "Obtener reservas de un espacio específico (público)",
+                "operationId": "bb15111f5f9a630d7e18318edc6427d2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del espacio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas del espacio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "nombre_evento": {
+                                                "type": "string"
+                                            },
+                                            "fecha_inicio": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "fecha_fin": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "estado": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
